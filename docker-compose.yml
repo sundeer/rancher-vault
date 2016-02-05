@@ -1,0 +1,40 @@
+lb:
+  image: rancher/load-balancer-service
+  ports:
+    - 8200:8200
+  tty: true
+  stdin_open: true
+  links:
+    - server-1:server-1
+    - server-2:server-2
+    - server-3:server-3
+
+server-1:
+  image: sundeer/docker-vault:latest
+  ports:
+    - 8200:8200
+  external_links:
+    - consul/lb:consul
+  cap_add:
+    - IPC_LOCK
+  command: 'server -config=/config/server-1.hcl'
+
+server-2:
+  image: sundeer/docker-vault:latest
+  ports:
+    - 8200:8200
+  external_links:
+    - consul/lb:consul
+  cap_add:
+    - IPC_LOCK
+  command: 'server -config=/config/server-2.hcl'
+
+server-3:
+  image: sundeer/docker-vault:latest
+  ports:
+    - 8200:8200
+  external_links:
+    - consul/lb:consul
+  cap_add:
+    - IPC_LOCK
+  command: 'server -config=/config/server-3.hcl'
