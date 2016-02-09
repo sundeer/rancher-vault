@@ -8,6 +8,8 @@ lb:
     - server-1:server-1
     - server-2:server-2
     - server-3:server-3
+  labels:
+    io.rancher.container.hostname_override: container_name
 
 server-1:
   image: sundeer/docker-vault:latest
@@ -18,6 +20,8 @@ server-1:
   cap_add:
     - IPC_LOCK
   command: 'server -config=/config/server-1.hcl'
+  labels:
+    io.rancher.container.hostname_override: container_name
 
 server-2:
   image: sundeer/docker-vault:latest
@@ -28,6 +32,8 @@ server-2:
   cap_add:
     - IPC_LOCK
   command: 'server -config=/config/server-2.hcl'
+  labels:
+    io.rancher.container.hostname_override: container_name
 
 server-3:
   image: sundeer/docker-vault:latest
@@ -38,3 +44,5 @@ server-3:
   cap_add:
     - IPC_LOCK
   command: 'server -config=/config/server-3.hcl'
+  labels:
+    io.rancher.container.hostname_override: container_name
