@@ -1,5 +1,5 @@
 lb:
-  scale: 1
+  scale: 2
   health_check:
     port: 42
     interval: 2000

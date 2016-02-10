@@ -2,17 +2,15 @@ lb:
   image: sundeer/rancher-haproxy-vault:feature_testing
   ports:
     - 8200:8200
-  tty: true
-  stdin_open: true
   links:
-    - server_1:server_1
-    - server_2:server_2
-    - server_3:server_3
+    - server-1:server-1
+    - server-2:server-2
+    - server-3:server-3
   labels:
     io.rancher.container.hostname_override: container_name
 
-server_1:
-  image: sundeer/docker-vault:latest
+server-1:
+  image: sundeer/docker-vault:feature_test
   expose:
     - 8200
   external_links:
@@ -20,11 +18,15 @@ server_1:
   cap_add:
     - IPC_LOCK
   command: 'server -config=/config/server.hcl'
+  environment:
+    AWS_ACCESS_KEY_ID:
+    AWS_SECRET_ACCESS_KEY:
+    AWS_S3_BUCKET:
   labels:
     io.rancher.container.hostname_override: container_name
 
 server-2:
-  image: sundeer/docker-vault:latest
+  image: sundeer/docker-vault:feature_test
   expose:
     - 8200
   external_links:
@@ -32,11 +34,15 @@ server-2:
   cap_add:
     - IPC_LOCK
   command: 'server -config=/config/server.hcl'
+  environment:
+    AWS_ACCESS_KEY_ID:
+    AWS_SECRET_ACCESS_KEY:
+    AWS_S3_BUCKET:
   labels:
     io.rancher.container.hostname_override: container_name
 
 server-3:
-  image: sundeer/docker-vault:latest
+  image: sundeer/docker-vault:feature_test
   expose:
     - 8200
   external_links:
@@ -44,5 +50,9 @@ server-3:
   cap_add:
     - IPC_LOCK
   command: 'server -config=/config/server.hcl'
+  environment:
+    AWS_ACCESS_KEY_ID:
+    AWS_SECRET_ACCESS_KEY:
+    AWS_S3_BUCKET:
   labels:
     io.rancher.container.hostname_override: container_name
