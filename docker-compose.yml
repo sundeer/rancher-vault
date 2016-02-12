@@ -2,10 +2,6 @@ lb:
   image: sundeer/rancher-haproxy-vault:feature_testing
   ports:
     - 8200:8200
-  # links:
-  #   - server-1:server-1
-  #   - server-2:server-2
-  #   - server-3:server-3
   labels:
     io.rancher.container.hostname_override: container_name
 
@@ -22,6 +18,8 @@ server-1:
     AWS_S3_BUCKET:
   labels:
     io.rancher.container.hostname_override: container_name
+    io.rancher.scheduler.affinity:host_label: ephemeral=false
+    io.rancher.scheduler.affinity:container_label_soft_ne: io.rancher.stack_service.name=$${stack_name}/$${service_name}
 
 server-2:
   image: sundeer/docker-vault:feature_test
@@ -36,6 +34,8 @@ server-2:
     AWS_S3_BUCKET:
   labels:
     io.rancher.container.hostname_override: container_name
+    io.rancher.scheduler.affinity:host_label: ephemeral=true
+    io.rancher.scheduler.affinity:container_label_soft_ne: io.rancher.stack_service.name=$${stack_name}/$${service_name}
 
 server-3:
   image: sundeer/docker-vault:feature_test
@@ -50,3 +50,5 @@ server-3:
     AWS_S3_BUCKET:
   labels:
     io.rancher.container.hostname_override: container_name
+    io.rancher.scheduler.affinity:host_label: ephemeral=true
+    io.rancher.scheduler.affinity:container_label_soft_ne: io.rancher.stack_service.name=$${stack_name}/$${service_name}
