@@ -9,6 +9,8 @@ server-1:
   image: sundeer/docker-vault:feature_test
   expose:
     - 8200
+  # ports:
+  #   - 8200:8200
   cap_add:
     - IPC_LOCK
   command: 'server -config=/config/server.hcl'
@@ -21,7 +23,8 @@ server-1:
   labels:
     io.rancher.container.hostname_override: container_name
     io.rancher.scheduler.affinity:host_label: ephemeral=false
-    io.rancher.scheduler.affinity:container_label_soft_ne: io.rancher.stack_service.name=$${stack_name}/$${service_name}
+    io.rancher.scheduler.affinity:container_label_soft_ne: io.rancher.stack_service.name=$${stack_name}/server-2
+    io.rancher.scheduler.affinity:container_label_soft_ne: io.rancher.stack_service.name=$${stack_name}/server-3
 
 server-2:
   image: sundeer/docker-vault:feature_test
@@ -38,8 +41,9 @@ server-2:
     AWS_S3_BUCKET:
   labels:
     io.rancher.container.hostname_override: container_name
-    io.rancher.scheduler.affinity:host_label: ephemeral=true
-    io.rancher.scheduler.affinity:container_label_soft_ne: io.rancher.stack_service.name=$${stack_name}/$${service_name}
+    io.rancher.scheduler.affinity:host_label_soft: ephemeral=true
+    io.rancher.scheduler.affinity:container_label_soft_ne: io.rancher.stack_service.name=$${stack_name}/server-1
+    io.rancher.scheduler.affinity:container_label_soft_ne: io.rancher.stack_service.name=$${stack_name}/server-3
 
 server-3:
   image: sundeer/docker-vault:feature_test
@@ -56,5 +60,6 @@ server-3:
     AWS_S3_BUCKET:
   labels:
     io.rancher.container.hostname_override: container_name
-    io.rancher.scheduler.affinity:host_label: ephemeral=true
-    io.rancher.scheduler.affinity:container_label_soft_ne: io.rancher.stack_service.name=$${stack_name}/$${service_name}
+    io.rancher.scheduler.affinity:host_label_soft: ephemeral=true
+    io.rancher.scheduler.affinity:container_label_soft_ne: io.rancher.stack_service.name=$${stack_name}/server-1
+    io.rancher.scheduler.affinity:container_label_soft_ne: io.rancher.stack_service.name=$${stack_name}/server-2
