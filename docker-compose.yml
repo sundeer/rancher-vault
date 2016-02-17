@@ -2,15 +2,19 @@ lb:
   image: sundeer/rancher-haproxy-vault:feature_testing
   ports:
     - 8200:8200
+  links:
+    - server-1
+    - server-2
+    - server-3
   labels:
     io.rancher.container.hostname_override: container_name
 
 server-1:
   image: sundeer/docker-vault:feature_test
-  expose:
-    - 8200
-  # ports:
-  #   - 8200:8200
+  # expose:
+  #   - 8200
+  ports:
+    - 8700:8200
   cap_add:
     - IPC_LOCK
   command: 'server -config=/config/server.hcl'
@@ -28,8 +32,10 @@ server-1:
 
 server-2:
   image: sundeer/docker-vault:feature_test
-  expose:
-    - 8200
+  # expose:
+  #   - 8200
+  ports:
+    - 8700:8200
   cap_add:
     - IPC_LOCK
   command: 'server -config=/config/server.hcl'
@@ -47,8 +53,10 @@ server-2:
 
 server-3:
   image: sundeer/docker-vault:feature_test
-  expose:
-    - 8200
+  # expose:
+  #   - 8200
+  ports:
+    - 8700:8200
   cap_add:
     - IPC_LOCK
   command: 'server -config=/config/server.hcl'
