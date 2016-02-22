@@ -9,6 +9,11 @@ lb:
   labels:
     io.rancher.container.hostname_override: container_name
 
+unseal:
+  image: sundeer/rancher-vault-unseal
+  labels:
+    io.rancher.container.start_once: true
+
 server-1:
   image: sundeer/docker-vault:feature_test
   # expose:
@@ -25,6 +30,7 @@ server-1:
     AWS_SECRET_ACCESS_KEY:
     AWS_S3_BUCKET:
   labels:
+    io.rancher.sidekicks: unseal
     io.rancher.container.hostname_override: container_name
     io.rancher.scheduler.affinity:host_label: ephemeral=false
     io.rancher.scheduler.affinity:container_label_soft_ne: io.rancher.stack_service.name=$${stack_name}/server-2
@@ -46,6 +52,7 @@ server-2:
     AWS_SECRET_ACCESS_KEY:
     AWS_S3_BUCKET:
   labels:
+    io.rancher.sidekicks: unseal
     io.rancher.container.hostname_override: container_name
     io.rancher.scheduler.affinity:host_label_soft: ephemeral=true
     io.rancher.scheduler.affinity:container_label_soft_ne: io.rancher.stack_service.name=$${stack_name}/server-1
@@ -67,6 +74,7 @@ server-3:
     AWS_SECRET_ACCESS_KEY:
     AWS_S3_BUCKET:
   labels:
+    io.rancher.sidekicks: unseal
     io.rancher.container.hostname_override: container_name
     io.rancher.scheduler.affinity:host_label_soft: ephemeral=true
     io.rancher.scheduler.affinity:container_label_soft_ne: io.rancher.stack_service.name=$${stack_name}/server-1
