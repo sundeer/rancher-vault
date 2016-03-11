@@ -10,7 +10,7 @@ lb:
     io.rancher.container.hostname_override: container_name
 
 server-1:
-  image: sundeer/docker-vault:feature_test
+  image: sundeer/docker-vault:latest
   expose:
     - 8200
   cap_add:
@@ -28,7 +28,7 @@ server-1:
     io.rancher.scheduler.affinity:container_label_soft_ne: io.rancher.stack_service.name=$${stack_name}/server-3
 
 server-2:
-  image: sundeer/docker-vault:feature_test
+  image: sundeer/docker-vault:latest
   expose:
     - 8200
   cap_add:
@@ -37,16 +37,16 @@ server-2:
   external_links:
     - consul/consul:consul
   environment:
-    AWS_ACCESS_KEY_ID:
-    AWS_SECRET_ACCESS_KEY:
-    AWS_S3_BUCKET:
+    AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+    AWS_S3_BUCKET: $AWS_S3_BUCKET
   labels:
     io.rancher.container.hostname_override: container_name
     io.rancher.scheduler.affinity:container_label_soft_ne: io.rancher.stack_service.name=$${stack_name}/server-1
     io.rancher.scheduler.affinity:container_label_soft_ne: io.rancher.stack_service.name=$${stack_name}/server-3
 
 server-3:
-  image: sundeer/docker-vault:feature_test
+  image: sundeer/docker-vault:latest
   expose:
     - 8200
   cap_add:
