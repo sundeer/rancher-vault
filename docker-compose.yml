@@ -25,9 +25,9 @@ server-1:
     AWS_SECRET_ACCESS_KEY:
     AWS_S3_BUCKET:
   labels:
+    vault: true
     io.rancher.container.hostname_override: container_name
-    io.rancher.scheduler.affinity:container_label_soft_ne: io.rancher.stack_service.name=$${stack_name}/server-2
-    io.rancher.scheduler.affinity:container_label_soft_ne: io.rancher.stack_service.name=$${stack_name}/server-3
+    io.rancher.scheduler.affinity:container_label_soft_ne: vault=true
 
 server-2:
   image: sundeer/docker-vault:latest
@@ -45,9 +45,9 @@ server-2:
     AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
     AWS_S3_BUCKET: $AWS_S3_BUCKET
   labels:
+    vault: true
     io.rancher.container.hostname_override: container_name
-    io.rancher.scheduler.affinity:container_label_soft_ne: io.rancher.stack_service.name=$${stack_name}/server-1
-    io.rancher.scheduler.affinity:container_label_soft_ne: io.rancher.stack_service.name=$${stack_name}/server-3
+    io.rancher.scheduler.affinity:container_label_soft_ne: vault=true
 
 server-3:
   image: sundeer/docker-vault:latest
@@ -65,6 +65,6 @@ server-3:
     AWS_SECRET_ACCESS_KEY:
     AWS_S3_BUCKET:
   labels:
+    vault: true
     io.rancher.container.hostname_override: container_name
-    io.rancher.scheduler.affinity:container_label_soft_ne: io.rancher.stack_service.name=$${stack_name}/server-1
-    io.rancher.scheduler.affinity:container_label_soft_ne: io.rancher.stack_service.name=$${stack_name}/server-2
+    io.rancher.container.hostname_override: container_name
