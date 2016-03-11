@@ -11,8 +11,6 @@ server:
   image: sundeer/docker-vault:latest
   expose:
     - 8200
-  # ports:
-  #   - 8201:8200
   cap_add:
     - IPC_LOCK
   command: 'server -config=/config/server.hcl'
