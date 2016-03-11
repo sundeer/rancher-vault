@@ -1,5 +1,5 @@
 lb:
-  image: sundeer/rancher-haproxy-vault:feature_testing
+  image: sundeer/rancher-haproxy-vault:latest
   ports:
     - 8200:8200
   links:
@@ -11,8 +11,10 @@ lb:
 
 server-1:
   image: sundeer/docker-vault:latest
-  expose:
-    - 8200
+  # expose:
+  #   - 8200
+  ports:
+    - 8201:8200
   cap_add:
     - IPC_LOCK
   command: 'server -config=/config/server.hcl'
@@ -29,8 +31,10 @@ server-1:
 
 server-2:
   image: sundeer/docker-vault:latest
-  expose:
-    - 8200
+  # expose:
+  #   - 8200
+  ports:
+    - 8202:8200
   cap_add:
     - IPC_LOCK
   command: 'server -config=/config/server.hcl'
@@ -47,8 +51,10 @@ server-2:
 
 server-3:
   image: sundeer/docker-vault:latest
-  expose:
-    - 8200
+  # expose:
+  #   - 8200
+  ports:
+    - 8203:8200
   cap_add:
     - IPC_LOCK
   command: 'server -config=/config/server.hcl'
