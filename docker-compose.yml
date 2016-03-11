@@ -3,18 +3,16 @@ lb:
   ports:
     - 8200:8200
   links:
-    - server-1
-    - server-2
-    - server-3
+    - server
   labels:
     io.rancher.container.hostname_override: container_name
 
-server-1:
+server:
   image: sundeer/docker-vault:latest
-  # expose:
-  #   - 8200
-  ports:
-    - 8201:8200
+  expose:
+    - 8200
+  # ports:
+  #   - 8201:8200
   cap_add:
     - IPC_LOCK
   command: 'server -config=/config/server.hcl'
@@ -28,43 +26,3 @@ server-1:
     vault: true
     io.rancher.container.hostname_override: container_name
     io.rancher.scheduler.affinity:container_label_soft_ne: vault=true
-
-server-2:
-  image: sundeer/docker-vault:latest
-  # expose:
-  #   - 8200
-  ports:
-    - 8202:8200
-  cap_add:
-    - IPC_LOCK
-  command: 'server -config=/config/server.hcl'
-  external_links:
-    - consul/consul:consul
-  environment:
-    AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
-    AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
-    AWS_S3_BUCKET: $AWS_S3_BUCKET
-  labels:
-    vault: true
-    io.rancher.container.hostname_override: container_name
-    io.rancher.scheduler.affinity:container_label_soft_ne: vault=true
-
-server-3:
-  image: sundeer/docker-vault:latest
-  # expose:
-  #   - 8200
-  ports:
-    - 8203:8200
-  cap_add:
-    - IPC_LOCK
-  command: 'server -config=/config/server.hcl'
-  external_links:
-    - consul/consul:consul
-  environment:
-    AWS_ACCESS_KEY_ID:
-    AWS_SECRET_ACCESS_KEY:
-    AWS_S3_BUCKET:
-  labels:
-    vault: true
-    io.rancher.container.hostname_override: container_name
-    io.rancher.container.hostname_override: container_name
